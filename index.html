@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Urbano Window Tinting Service | Fort Lauderdale, FL</title>
+<meta name="description" content="Servicio móvil de tinte de ventanas para autos, casas, negocios, botes y yates en Fort Lauderdale. Nosotros vamos a ti.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#FFFBF5;
+    --black-2:#FFF1DD;
+    --black-3:#FFE4BD;
+    --red:#E4162B;
+    --red-dark:#B10E1F;
+    --white:#1B1B1E;
+    --chrome:#6B6B70;
+    --chrome-light:#45454A;
+    --glass-blue:#12A6D8;
+    --gold:#FFB627;
+    --line: rgba(20,20,20,0.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--black);
+    color:var(--white);
+    font-family:'Archivo', sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,h3, .display{
+    font-family:'Oswald', sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.02em;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{display:block; max-width:100%;}
+  .container{max-width:1180px; margin:0 auto; padding:0 24px;}
+
+  /* ===== Utility ===== */
+  .eyebrow{
+    font-family:'Oswald',sans-serif;
+    font-size:13px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--red);
+    font-weight:600;
+    margin-bottom:14px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px; height:2px; background:var(--red);
+    display:inline-block;
+  }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    gap:10px;
+    padding:16px 30px;
+    background:var(--red);
+    color:#fff;
+    font-family:'Oswald', sans-serif;
+    font-weight:600;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    font-size:15px;
+    border:none;
+    cursor:pointer;
+    clip-path:polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+    transition:transform .18s ease, background .18s ease;
+    box-shadow:0 8px 20px rgba(228,22,43,0.25);
+  }
+  .btn:hover{background:var(--red-dark); transform:translateY(-2px);}
+  .btn.ghost{
+    background:transparent;
+    border:1.5px solid var(--white);
+    color:var(--white);
+  }
+  .btn.ghost:hover{background:var(--white); color:var(--black);}
+  .btn.ghost.on-dark{
+    border:1.5px solid #fff;
+    color:#fff;
+  }
+  .btn.ghost.on-dark:hover{background:#fff; color:var(--red-dark);}
+
+  /* ===== Top bar ===== */
+  .topbar{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(255,251,245,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px;
+    max-width:1180px; margin:0 auto;
+  }
+  .logo-mark{display:flex; align-items:center;}
+  .logo-mark img{
+    height:56px; width:auto; display:block;
+    filter:drop-shadow(0 2px 6px rgba(0,0,0,0.12));
+  }
+  .nav-links{display:flex; gap:32px; align-items:center;}
+  .nav-links a{
+    font-family:'Oswald',sans-serif;
+    font-size:13px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--chrome-light);
+    transition:color .15s;
+  }
+  .nav-links a:hover{color:var(--red);}
+  .topbar-right{display:flex; align-items:center; gap:18px;}
+  .lang-toggle{
+    display:flex; border:1px solid var(--line); border-radius:20px; overflow:hidden;
+    font-family:'Oswald',sans-serif; font-size:12px; letter-spacing:0.06em;
+  }
+  .lang-toggle button{
+    background:transparent; border:none; color:var(--chrome); padding:6px 14px;
+    cursor:pointer; font-family:inherit; font-size:inherit; letter-spacing:inherit;
+  }
+  .lang-toggle button.active{background:var(--red); color:#fff;}
+  .phone-pill{
+    font-family:'Oswald',sans-serif; font-size:13px; font-weight:600;
+    color:var(--white); display:none;
+  }
+  @media(min-width:900px){ .phone-pill{display:block;} }
+  .hamburger{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer;}
+  .hamburger span{width:24px; height:2px; background:var(--white);}
+  @media(max-width:860px){
+    .nav-links{display:none;}
+    .hamburger{display:flex;}
+  }
+
+  /* ===== Hero ===== */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex; align-items:flex-end;
+    padding-bottom:80px;
+    overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute; inset:0;
+    background-image:url('assets/car-lambo-hero-enhanced.jpg');
+    background-size:cover; background-position:55% 40%;
+  }
+  .hero-bg::after{
+    content:"";
+  }
+  .hero-scrim{
+    position:absolute; inset:0;
+    background:
+      linear-gradient(180deg, rgba(20,14,8,0.0) 0%, rgba(20,14,8,0.0) 40%, rgba(20,10,6,0.28) 80%, rgba(15,8,4,0.55) 100%),
+      linear-gradient(90deg, rgba(20,14,8,0.22) 0%, rgba(20,14,8,0.0) 55%, rgba(20,14,8,0.0) 100%);
+  }
+  .hero-content{position:relative; z-index:2; padding-top:120px; color:#fff;}
+  .hero-eyebrow{
+    font-family:'Oswald',sans-serif; color:var(--gold); font-weight:600;
+    letter-spacing:0.25em; font-size:13px; text-transform:uppercase;
+    display:flex; align-items:center; gap:10px; margin-bottom:20px;
+    text-shadow:0 2px 10px rgba(0,0,0,0.35);
+  }
+  .hero-eyebrow::before{content:""; width:34px; height:2px; background:var(--gold);}
+  .hero h1{
+    font-size:clamp(42px, 8vw, 92px);
+    line-height:0.96;
+    font-weight:700;
+    max-width:800px;
+    color:#fff;
+    text-shadow:0 4px 24px rgba(0,0,0,0.35);
+  }
+  .hero h1 .thin{ font-weight:400; color:rgba(255,255,255,0.88); display:block; }
+  .hero-sub{
+    margin-top:24px; max-width:520px;
+    font-size:18px; line-height:1.55; color:rgba(255,255,255,0.9);
+    text-shadow:0 2px 12px rgba(0,0,0,0.3);
+  }
+  .hero-ctas{display:flex; gap:16px; margin-top:36px; flex-wrap:wrap;}
+  .hero-stats{
+    display:flex; gap:36px; margin-top:56px; flex-wrap:wrap;
+  }
+  .hero-stat b{
+    display:block; font-family:'Oswald',sans-serif; font-size:30px; font-weight:700; color:#fff;
+    text-shadow:0 2px 12px rgba(0,0,0,0.3);
+  }
+  .hero-stat span{font-size:12px; letter-spacing:0.08em; color:rgba(255,255,255,0.75); text-transform:uppercase;}
+  .scroll-cue{
+    position:absolute; right:24px; bottom:28px; z-index:2;
+    writing-mode:vertical-rl; color:rgba(255,255,255,0.75); font-family:'Oswald',sans-serif;
+    font-size:11px; letter-spacing:0.3em; text-transform:uppercase;
+    display:flex; align-items:center; gap:10px;
+  }
+  .scroll-cue::after{content:""; width:1px; height:50px; background:rgba(255,255,255,0.5);}
+
+  /* ===== Tint Slider Signature Section ===== */
+  .tint-section{
+    padding:100px 0 110px;
+    background:var(--black-2);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .tint-head{max-width:640px; margin-bottom:50px;}
+  .tint-head h2{font-size:clamp(28px,4vw,44px); font-weight:600; line-height:1.05;}
+  .tint-head p{margin-top:16px; color:var(--chrome-light); font-size:16px; line-height:1.6;}
+  .tint-demo{
+    display:grid; grid-template-columns:1.3fr 1fr; gap:50px; align-items:center;
+  }
+  @media(max-width:860px){ .tint-demo{grid-template-columns:1fr;} }
+  .tint-visual{
+    position:relative; aspect-ratio:4/3; overflow:hidden;
+    border:1px solid var(--line); box-shadow:0 10px 30px rgba(20,10,5,0.08);
+  }
+  .tint-visual img{width:100%; height:100%; object-fit:cover;}
+  .tint-controls{display:flex; flex-direction:column; gap:22px;}
+  .tint-levels-row{display:flex; gap:8px; flex-wrap:wrap;}
+  .tint-level-chip{
+    padding:9px 16px; background:#fff; border:1.5px solid var(--line);
+    color:var(--chrome-light); font-family:'Oswald',sans-serif; font-size:13px;
+    font-weight:600; letter-spacing:0.04em;
+  }
+  .tint-note{font-size:14px; color:var(--chrome); line-height:1.6; border-left:2px solid var(--red); padding-left:16px;}
+
+  /* ===== Services ===== */
+  .services{padding:110px 0;}
+  .services-head{display:flex; justify-content:space-between; align-items:flex-end; gap:30px; flex-wrap:wrap; margin-bottom:50px;}
+  .services-head h2{font-size:clamp(28px,4vw,44px); font-weight:600; max-width:600px; line-height:1.05;}
+  .services-head p{color:var(--chrome-light); max-width:380px; font-size:15px; line-height:1.6;}
+
+  .svc-grid{
+    display:grid;
+    grid-template-columns:repeat(12,1fr);
+    gap:18px;
+  }
+  .svc-card{
+    position:relative; overflow:hidden; border:1px solid var(--line);
+    background:#fff;
+    display:flex; flex-direction:column;
+    box-shadow:0 6px 24px rgba(20,10,5,0.06);
+  }
+  .svc-media{position:relative; width:100%; aspect-ratio:4/3; overflow:hidden;}
+  .svc-media img{width:100%; height:100%; object-fit:cover; transition:transform .4s;}
+  .svc-card:hover .svc-media img{transform:scale(1.05);}
+  .svc-body{padding:24px 26px 28px;}
+  .svc-tag{
+    font-family:'Oswald',sans-serif; font-size:11.5px; letter-spacing:0.15em;
+    text-transform:uppercase; color:var(--red); font-weight:600; margin-bottom:10px;
+  }
+  .svc-card h3{font-size:22px; font-weight:600; margin-bottom:6px; color:var(--white);}
+  .svc-card p{font-size:14px; color:var(--chrome); line-height:1.5;}
+  .svc-pct{
+    position:absolute; top:16px; right:16px; z-index:2;
+    font-family:'Oswald',sans-serif; font-weight:700; font-size:15px; color:#fff;
+    background:var(--red); padding:5px 12px;
+    box-shadow:0 4px 12px rgba(228,22,43,0.35);
+  }
+
+  .svc-auto{grid-column:span 4;}
+  .svc-resi{grid-column:span 4;}
+  .svc-comm{grid-column:span 4;}
+  .svc-boat{grid-column:span 12;}
+  @media(max-width:900px){
+    .svc-auto,.svc-resi,.svc-comm,.svc-boat{grid-column:span 12;}
+  }
+  .svc-auto h3{font-size:24px;}
+  .svc-boat .svc-media{aspect-ratio:16/6;}
+  @media(max-width:600px){ .svc-boat .svc-media{aspect-ratio:4/3;} }
+
+  /* ===== Gallery ===== */
+  .gallery{padding:60px 0 110px;}
+  .gallery-grid{
+    display:grid; grid-template-columns:repeat(6,1fr); gap:12px;
+    grid-auto-rows:130px;
+  }
+  .gallery-grid img{width:100%; height:100%; object-fit:cover; filter:saturate(1.12) contrast(1.04); transition:transform .4s;}
+  .gallery-grid img:hover{transform:scale(1.03);}
+  .g1{grid-column:span 2; grid-row:span 3;}
+  .g2{grid-column:span 2; grid-row:span 2;}
+  .g3{grid-column:span 2; grid-row:span 2;}
+  .g4{grid-column:span 2; grid-row:span 2;}
+  .g5{grid-column:span 2; grid-row:span 3;}
+  .g6{grid-column:span 2; grid-row:span 2;}
+  @media(max-width:760px){
+    .gallery-grid{grid-template-columns:repeat(2,1fr); grid-auto-rows:160px;}
+    .g1,.g2,.g3,.g4,.g5,.g6{grid-column:span 1; grid-row:span 2;}
+  }
+
+  /* ===== Mobile Service Band ===== */
+  .mobile-band{
+    padding:90px 0; background:var(--black-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  }
+  .mobile-inner{display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;}
+  @media(max-width:860px){ .mobile-inner{grid-template-columns:1fr;} }
+  .mobile-inner img{width:100%; height:100%; object-fit:cover; aspect-ratio:4/3; border:1px solid var(--line); box-shadow:0 10px 30px rgba(20,10,5,0.08);}
+  .mobile-text h2{font-size:clamp(26px,4vw,40px); font-weight:600; line-height:1.08; margin-bottom:20px;}
+  .mobile-text p{color:var(--chrome-light); font-size:16px; line-height:1.65; margin-bottom:26px;}
+  .mobile-list{display:flex; flex-direction:column; gap:14px; margin-bottom:30px;}
+  .mobile-list-item{display:flex; gap:14px; align-items:flex-start;}
+  .mobile-list-item .dot{width:8px; height:8px; background:var(--red); margin-top:7px; flex-shrink:0;}
+  .mobile-list-item span{color:var(--chrome-light); font-size:15px; line-height:1.5;}
+
+  /* ===== Social Proof ===== */
+  .social-proof{padding:0 0 100px;}
+  .social-inner{
+    display:grid; grid-template-columns:0.8fr 1.2fr; gap:50px; align-items:center;
+    border:1px solid var(--line); background:#fff; padding:0;
+    box-shadow:0 10px 34px rgba(20,10,5,0.07);
+  }
+  @media(max-width:860px){ .social-inner{grid-template-columns:1fr;} }
+  .social-media{position:relative; aspect-ratio:9/16; max-height:520px; overflow:hidden;}
+  .social-media img{width:100%; height:100%; object-fit:cover;}
+  .social-text{padding:40px 44px 40px 0;}
+  @media(max-width:860px){ .social-text{padding:0 30px 40px;} }
+  .social-stats{display:flex; gap:30px; margin:26px 0 30px;}
+  .social-stat b{display:block; font-family:'Oswald',sans-serif; font-size:28px; font-weight:700;}
+  .social-stat.c-red b{color:var(--red);}
+  .social-stat.c-gold b{color:var(--gold);}
+  .social-stat.c-sky b{color:var(--glass-blue);}
+  .social-stat span{font-size:12px; color:var(--chrome); text-transform:uppercase; letter-spacing:0.06em;}
+  .social-text h2{font-size:clamp(24px,3.4vw,34px); font-weight:600; line-height:1.1; margin-bottom:16px;}
+  .social-text p{color:var(--chrome-light); font-size:15px; line-height:1.6; margin-bottom:26px; max-width:440px;}
+
+  /* ===== Reviews ===== */
+  .reviews{padding:100px 0;}
+  .reviews-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  @media(max-width:860px){ .reviews-grid{grid-template-columns:1fr;} }
+  .review-card{border:1px solid var(--line); padding:30px; background:#fff; box-shadow:0 6px 24px rgba(20,10,5,0.06);}
+  .review-stars{color:var(--gold); font-size:15px; letter-spacing:2px; margin-bottom:16px;}
+  .review-card p{font-size:15px; line-height:1.6; color:var(--chrome-light); margin-bottom:18px;}
+  .review-name{font-family:'Oswald',sans-serif; font-size:13px; letter-spacing:0.06em; color:var(--white); text-transform:uppercase;}
+  .review-src{font-size:12px; color:var(--chrome);}
+  .rating-bar{
+    display:flex; gap:40px; flex-wrap:wrap; margin-bottom:50px; padding-bottom:40px; border-bottom:1px solid var(--line);
+  }
+  .rating-item b{font-family:'Oswald',sans-serif; font-size:36px; font-weight:700; color:var(--white); display:block;}
+  .rating-item span{font-size:13px; color:var(--chrome); text-transform:uppercase; letter-spacing:0.05em;}
+
+  /* ===== Contact / Footer ===== */
+  .contact{
+    padding:110px 0 60px;
+    position:relative;
+    background:url('assets/car-garage-exotics.jpg');
+    background-size:cover; background-position:center 30%;
+    border-top:1px solid var(--line);
+  }
+  .contact::before{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(90deg, rgba(255,251,245,0.94) 0%, rgba(255,251,245,0.75) 45%, rgba(255,251,245,0.25) 75%, rgba(255,251,245,0.05) 100%);
+  }
+  .contact-inner{max-width:640px; position:relative; z-index:2;}
+  .contact h2{font-size:clamp(30px,5vw,52px); font-weight:700; line-height:1.05; margin-bottom:20px;}
+  .contact p{color:var(--chrome-light); font-size:16px; line-height:1.6; margin-bottom:36px; max-width:480px;}
+  .contact-phones{display:flex; flex-direction:column; gap:14px; margin-bottom:36px;}
+  .contact-phone{
+    display:flex; align-items:center; gap:14px;
+    font-family:'Oswald',sans-serif; font-size:26px; font-weight:600; color:var(--white);
+  }
+  .contact-phone .lbl{font-size:12px; color:var(--chrome); text-transform:uppercase; letter-spacing:0.1em; font-family:'Archivo',sans-serif; font-weight:500; width:110px;}
+  .contact-ctas{display:flex; gap:16px; flex-wrap:wrap;}
+
+  footer{padding:36px 0; border-top:1px solid var(--line);}
+  .footer-inner{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;}
+  .footer-inner p{font-size:13px; color:var(--chrome);}
+  .footer-social{display:flex; gap:18px;}
+  .footer-social a{font-size:13px; color:var(--chrome-light); font-family:'Oswald',sans-serif; letter-spacing:0.05em;}
+  .footer-social a:hover{color:var(--red);}
+
+  [data-lang]{display:none;}
+  [data-lang].lang-active{display:block;}
+  span[data-lang].lang-active, a[data-lang].lang-active, b[data-lang].lang-active{display:inline;}
+  .hero-eyebrow[data-lang].lang-active{display:flex;}
+  .eyebrow[data-lang].lang-active{display:flex;}
+  .mobile-list-item[data-lang].lang-active{display:flex;}
+  .contact-phone[data-lang].lang-active{display:flex;}
+</style>
+</head>
+<body id="top">
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="#top" class="logo-mark"><img src="assets/logo.jpg" alt="Urbano Window Tinting Service"></a>
+    <div class="nav-links">
+      <a href="#servicios">Servicios</a>
+      <a href="#galeria">Galería</a>
+      <a href="#movil">Móvil</a>
+      <a href="#resenas">Reseñas</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+    <div class="topbar-right">
+      <span class="phone-pill">954.909.2954</span>
+      <div class="lang-toggle">
+        <button id="btn-es" class="active" onclick="setLang('es')">ES</button>
+        <button id="btn-en" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-scrim"></div>
+  <div class="container hero-content">
+    <p class="hero-eyebrow" data-lang="es lang-active">Servicio móvil · Hollywood, Fort Lauderdale &amp; Broward</p>
+    <p class="hero-eyebrow" data-lang="en">Mobile Service · Hollywood, Fort Lauderdale &amp; Broward</p>
+
+    <h1 data-lang="es lang-active">TINTE DE<br><span class="thin">PRECISIÓN,</span><br>A DOMICILIO.</h1>
+    <h1 data-lang="en">PRECISION<br><span class="thin">TINT,</span><br>AT YOUR DOOR.</h1>
+
+    <p class="hero-sub" data-lang="es lang-active">Autos, casas, negocios, botes y yates. Llegamos con el equipo completo a tu ubicación en el sur de la Florida — sin talleres, sin esperas.</p>
+    <p class="hero-sub" data-lang="en">Cars, homes, businesses, boats and yachts. We bring the full setup to your location across South Florida — no shop, no waiting.</p>
+
+    <div class="hero-ctas">
+      <a href="tel:9549092954" class="btn" data-lang="es lang-active">Llamar 954.909.2954</a>
+      <a href="tel:9549092954" class="btn" data-lang="en">Call 954.909.2954</a>
+      <a href="#servicios" class="btn ghost on-dark" data-lang="es lang-active">Ver servicios</a>
+      <a href="#servicios" class="btn ghost on-dark" data-lang="en">View services</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat"><b>4.9★ / 356</b><span data-lang="es lang-active">Reseñas en Google</span><span data-lang="en">Google reviews</span></div>
+      <div class="hero-stat"><b>5.0★</b><span data-lang="es lang-active">HomeAdvisor</span><span data-lang="en">HomeAdvisor</span></div>
+      <div class="hero-stat"><b>100%</b><span data-lang="es lang-active">Servicio móvil</span><span data-lang="en">Mobile service</span></div>
+    </div>
+  </div>
+  <div class="scroll-cue" data-lang="es lang-active">Desplázate</div>
+  <div class="scroll-cue" data-lang="en">Scroll</div>
+</section>
+
+<!-- TINT INFO SECTION -->
+<section class="tint-section">
+  <div class="container">
+    <div class="tint-head">
+      <p class="eyebrow" data-lang="es lang-active">Elige tu nivel</p>
+      <p class="eyebrow" data-lang="en">Choose your level</p>
+      <h2 data-lang="es lang-active">¿Qué tan oscuro lo quieres?</h2>
+      <h2 data-lang="en">How dark do you want it?</h2>
+      <p data-lang="es lang-active">Manejamos todos los niveles de tinte más solicitados — desde 70% (apenas visible) hasta 5% (privacidad total). Te ayudamos a elegir el porcentaje legal y adecuado para tu vehículo o propiedad.</p>
+      <p data-lang="en">We work with all the most requested tint levels — from 70% (barely visible) to 5% (full privacy). We'll help you choose the right legal percentage for your vehicle or property.</p>
+    </div>
+    <div class="tint-demo">
+      <div class="tint-visual">
+        <img src="assets/car-tint-demo3-bright.jpg" alt="Instalación de tinte Urbano">
+      </div>
+      <div class="tint-controls">
+        <div class="tint-levels-row">
+          <span class="tint-level-chip">5%</span>
+          <span class="tint-level-chip">15%</span>
+          <span class="tint-level-chip">20%</span>
+          <span class="tint-level-chip">35%</span>
+          <span class="tint-level-chip">50%</span>
+          <span class="tint-level-chip">70%</span>
+        </div>
+        <p class="tint-note" data-lang="es lang-active">Florida permite un mínimo de 28% VLT en ventanas delanteras y cualquier nivel en las traseras y el parabrisas trasero (con espejos laterales). Te asesoramos sin costo antes de instalar.</p>
+        <p class="tint-note" data-lang="en">Florida allows a minimum of 28% VLT on front windows and any level on rear windows and back windshield (with side mirrors). We advise you at no cost before installing.</p>
+        <a href="tel:9549092954" class="btn" data-lang="es lang-active">Pide tu asesoría gratis</a>
+        <a href="tel:9549092954" class="btn" data-lang="en">Get free advice</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="servicios">
+  <div class="container">
+    <div class="services-head">
+      <div>
+        <p class="eyebrow" data-lang="es lang-active">Lo que hacemos</p>
+        <p class="eyebrow" data-lang="en">What we do</p>
+        <h2 data-lang="es lang-active">Servicios de tinte para cada superficie</h2>
+        <h2 data-lang="en">Tinting services for every surface</h2>
+      </div>
+      <p data-lang="es lang-active">Especialistas en automotriz — también atendemos hogares, negocios, botes y yates en toda el área de Fort Lauderdale.</p>
+      <p data-lang="en">Automotive specialists — we also serve homes, businesses, boats and yachts across the Fort Lauderdale area.</p>
+    </div>
+
+    <div class="svc-grid">
+      <div class="svc-card svc-auto">
+        <div class="svc-media">
+          <img src="assets/car-lambo-hero.jpg" alt="Tinte automotriz">
+          <div class="svc-pct">30%</div>
+        </div>
+        <div class="svc-body">
+          <p class="svc-tag" data-lang="es lang-active">Automotriz</p>
+          <p class="svc-tag" data-lang="en">Automotive</p>
+          <h3 data-lang="es lang-active">Autos, camionetas y exóticos</h3>
+          <h3 data-lang="en">Cars, trucks &amp; exotics</h3>
+          <p data-lang="es lang-active">Film cerámico de alto rendimiento, acabado impecable, sin burbujas ni rayas.</p>
+          <p data-lang="en">High-performance ceramic film with a flawless, bubble-free finish.</p>
+        </div>
+      </div>
+
+      <div class="svc-card svc-resi">
+        <div class="svc-media">
+          <img src="assets/residential-ocean-view.jpg" alt="Tinte residencial">
+          <div class="svc-pct">30%</div>
+        </div>
+        <div class="svc-body">
+          <p class="svc-tag" data-lang="es lang-active">Residencial</p>
+          <p class="svc-tag" data-lang="en">Residential</p>
+          <h3 data-lang="es lang-active">Tu casa, más fresca</h3>
+          <h3 data-lang="en">A cooler home</h3>
+          <p data-lang="es lang-active">Reduce el calor y la factura de energía sin perder la vista. Incluye privacidad total (blackout) cuando la necesites.</p>
+          <p data-lang="en">Cut heat and energy bills without losing the view. Full blackout privacy available when you need it.</p>
+        </div>
+      </div>
+
+      <div class="svc-card svc-comm">
+        <div class="svc-media">
+          <img src="assets/building-exterior.jpg" alt="Tinte comercial en edificios">
+          <div class="svc-pct">30%</div>
+        </div>
+        <div class="svc-body">
+          <p class="svc-tag" data-lang="es lang-active">Comercial</p>
+          <p class="svc-tag" data-lang="en">Commercial</p>
+          <h3 data-lang="es lang-active">Oficinas y locales</h3>
+          <h3 data-lang="en">Offices &amp; storefronts</h3>
+          <p data-lang="es lang-active">Confort, privacidad y ahorro energético para tu negocio, sin interrumpir tu operación.</p>
+          <p data-lang="en">Comfort, privacy, and energy savings for your business, without interrupting operations.</p>
+        </div>
+      </div>
+
+      <div class="svc-card svc-boat">
+        <div class="svc-media">
+          <img src="assets/boat-yacht.jpg" alt="Tinte para botes y yates">
+          <div class="svc-pct">10%</div>
+        </div>
+        <div class="svc-body">
+          <p class="svc-tag" data-lang="es lang-active">Marino</p>
+          <p class="svc-tag" data-lang="en">Marine</p>
+          <h3 data-lang="es lang-active">Botes &amp; Yates</h3>
+          <h3 data-lang="en">Boats &amp; Yachts</h3>
+          <p data-lang="es lang-active">Films resistentes a la sal y al sol para cabinas, parabrisas y ventanas de embarcaciones.</p>
+          <p data-lang="en">Salt- and sun-resistant films for cabins, windshields, and boat windows.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="galeria">
+  <div class="container">
+    <p class="eyebrow" data-lang="es lang-active">Trabajo reciente</p>
+    <p class="eyebrow" data-lang="en">Recent work</p>
+    <h2 style="font-size:clamp(26px,4vw,40px); font-weight:600; margin-bottom:36px;" data-lang="es lang-active">Antes de que te vayas, míralo tú mismo</h2>
+    <h2 style="font-size:clamp(26px,4vw,40px); font-weight:600; margin-bottom:36px;" data-lang="en">See the work for yourself</h2>
+    <div class="gallery-grid">
+      <img class="g1" src="assets/car-garage-exotics.jpg" alt="Lamborghini garage">
+      <img class="g2" src="assets/building-lobby.jpg" alt="Lobby de edificio">
+      <img class="g3" src="assets/car-cybertruck.jpg" alt="Tesla Cybertruck">
+      <img class="g4" src="assets/building-gym-install.jpg" alt="Instalación en gimnasio de edificio">
+      <img class="g5" src="assets/boat-yacht.jpg" alt="Tinte para yate">
+      <img class="g6" src="assets/car-porsche-install.jpg" alt="Porsche 911">
+    </div>
+  </div>
+</section>
+
+<!-- MOBILE BAND -->
+<section class="mobile-band" id="movil">
+  <div class="container mobile-inner">
+    <img src="assets/van-mobile.jpg" alt="Servicio móvil Urbano Window Tinting">
+    <div class="mobile-text">
+      <p class="eyebrow" data-lang="es lang-active">Servicio móvil</p>
+      <p class="eyebrow" data-lang="en">Mobile service</p>
+      <h2 data-lang="es lang-active">Nosotros vamos a ti</h2>
+      <h2 data-lang="en">We come to you</h2>
+      <p data-lang="es lang-active">Nada de talleres ni citas perdidas manejando por la ciudad. Llegamos con todo el equipo — a tu casa, tu oficina, tu marina — y trabajamos donde tú estés.</p>
+      <p data-lang="en">No shop visits, no lost time driving across town. We arrive with the full setup — to your home, office, or marina — and work right where you are.</p>
+      <div class="mobile-list">
+        <div class="mobile-list-item" data-lang="es lang-active"><div class="dot"></div><span>Hollywood, Hallandale, Davie, Plantation, Pembroke Pines y Fort Lauderdale</span></div>
+        <div class="mobile-list-item" data-lang="en"><div class="dot"></div><span>Hollywood, Hallandale, Davie, Plantation, Pembroke Pines and Fort Lauderdale</span></div>
+        <div class="mobile-list-item" data-lang="es lang-active"><div class="dot"></div><span>Presupuesto gratis antes de instalar</span></div>
+        <div class="mobile-list-item" data-lang="en"><div class="dot"></div><span>Free estimate before installation</span></div>
+        <div class="mobile-list-item" data-lang="es lang-active"><div class="dot"></div><span>Equipo profesional, resultado sin burbujas</span></div>
+        <div class="mobile-list-item" data-lang="en"><div class="dot"></div><span>Professional crew, bubble-free finish</span></div>
+      </div>
+      <a href="tel:9549092954" class="btn" data-lang="es lang-active">Agenda tu servicio</a>
+      <a href="tel:9549092954" class="btn" data-lang="en">Book your service</a>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="social-proof">
+  <div class="container">
+    <div class="social-inner">
+      <div class="social-media">
+        <img src="assets/viral-privacy-video.jpg" alt="Video viral de privacidad 100%">
+      </div>
+      <div class="social-text">
+        <p class="eyebrow" data-lang="es lang-active">Contenido que conecta</p>
+        <p class="eyebrow" data-lang="en">Content that connects</p>
+        <h2 data-lang="es lang-active">Nuestro trabajo se viraliza porque se nota la diferencia</h2>
+        <h2 data-lang="en">Our work goes viral because the difference is visible</h2>
+        <p data-lang="es lang-active">Este video de una instalación de privacidad total (blackout) en una casa residencial superó las 110 mil vistas en redes sociales — la gente reacciona cuando ve resultados reales.</p>
+        <p data-lang="en">This video of a full blackout privacy install on a residential home passed 110K views on social media — people react when they see real results.</p>
+        <div class="social-stats">
+          <div class="social-stat c-red"><b>110.3K</b><span data-lang="es lang-active">Vistas</span><span data-lang="en">Views</span></div>
+          <div class="social-stat c-gold"><b>2,599</b><span data-lang="es lang-active">Me gusta</span><span data-lang="en">Likes</span></div>
+          <div class="social-stat c-sky"><b>160</b><span data-lang="es lang-active">Guardados</span><span data-lang="en">Saves</span></div>
+        </div>
+        <a href="https://www.instagram.com/urbano_windowtinting_service/" target="_blank" class="btn ghost" data-lang="es lang-active">Ver más en Instagram</a>
+        <a href="https://www.instagram.com/urbano_windowtinting_service/" target="_blank" class="btn ghost" data-lang="en">See more on Instagram</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="resenas">
+  <div class="container">
+    <p class="eyebrow" data-lang="es lang-active">Lo que dicen los clientes</p>
+    <p class="eyebrow" data-lang="en">What clients say</p>
+    <h2 style="font-size:clamp(26px,4vw,40px); font-weight:600; margin-bottom:36px;" data-lang="es lang-active">Calificación 5 estrellas</h2>
+    <h2 style="font-size:clamp(26px,4vw,40px); font-weight:600; margin-bottom:36px;" data-lang="en">Five-star rated</h2>
+
+    <div class="rating-bar">
+      <div class="rating-item"><b>4.9 / 5</b><span data-lang="es lang-active">356 reseñas · Google</span><span data-lang="en">356 reviews · Google</span></div>
+      <div class="rating-item"><b>5.0 / 5</b><span>HomeAdvisor</span></div>
+      <div class="rating-item"><b>4.9 / 5</b><span data-lang="es lang-active">247 reseñas · TintBrokers</span><span data-lang="en">247 reviews · TintBrokers</span></div>
+      <div class="rating-item"><b>Top 1%</b><span data-lang="es lang-active">Quality Business Awards 2026</span><span data-lang="en">Quality Business Awards 2026</span></div>
+    </div>
+    <a href="https://www.google.com/search?q=Urbano+Window+Tinting+Service+Hollywood+Florida+reviews" target="_blank" class="btn ghost" style="margin-bottom:44px;" data-lang="es lang-active">Ver reseñas en Google</a>
+    <a href="https://www.google.com/search?q=Urbano+Window+Tinting+Service+Hollywood+Florida+reviews" target="_blank" class="btn ghost" style="margin-bottom:44px;" data-lang="en">See reviews on Google</a>
+
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p data-lang="es lang-active">"Muy recomendado si buscas buen servicio, trabajo de calidad y buen precio. Llamé para una cotización y me agendaron para el día siguiente."</p>
+        <p data-lang="en">"Highly recommend if you're looking for great service, quality work and a good price. I called for a quote and was scheduled the next day."</p>
+        <div class="review-name">Jennifer B.</div>
+        <div class="review-src">HomeAdvisor</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p data-lang="es lang-active">"Carlos hizo un gran trabajo con el tinte de las ventanas de mi carro. También hizo algunas ventanas de mi casa. Me encanta cómo se ve todo."</p>
+        <p data-lang="en">"Carlos did a great job on my car's window tinting. He also did some of my house's windows. I love how everything looks."</p>
+        <div class="review-name" data-lang="es lang-active">Cliente verificado</div>
+        <div class="review-name" data-lang="en">Verified client</div>
+        <div class="review-src">HomeAdvisor</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p data-lang="es lang-active">"El proyecto fue de primera categoría. No solo llegaron a tiempo, sino que terminaron antes de lo previsto. ¡El resultado final fue excelente!"</p>
+        <p data-lang="en">"The project was top-notch. Not only did they show up on time, they finished ahead of schedule. The final result was excellent!"</p>
+        <div class="review-name" data-lang="es lang-active">Cliente verificado</div>
+        <div class="review-name" data-lang="en">Verified client</div>
+        <div class="review-src">HomeAdvisor</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contacto">
+  <div class="container contact-inner">
+    <p class="eyebrow" data-lang="es lang-active">Contacto</p>
+    <p class="eyebrow" data-lang="en">Contact</p>
+    <h2 data-lang="es lang-active">Pide tu presupuesto gratis</h2>
+    <h2 data-lang="en">Get your free estimate</h2>
+    <p data-lang="es lang-active">Cuéntanos qué necesitas — auto, casa, negocio o embarcación — y coordinamos el servicio en tu ubicación.</p>
+    <p data-lang="en">Tell us what you need — car, home, business, or boat — and we'll set up service at your location.</p>
+
+    <div class="contact-phones">
+      <div class="contact-phone" data-lang="es lang-active"><span class="lbl">Línea 1</span><a href="tel:9549092954">954.909.2954</a></div>
+      <div class="contact-phone" data-lang="en"><span class="lbl">Line 1</span><a href="tel:9549092954">954.909.2954</a></div>
+      <div class="contact-phone" data-lang="es lang-active"><span class="lbl">Línea 2</span><a href="tel:7866617961">786.661.7961</a></div>
+      <div class="contact-phone" data-lang="en"><span class="lbl">Line 2</span><a href="tel:7866617961">786.661.7961</a></div>
+    </div>
+
+    <div class="contact-ctas">
+      <a href="tel:9549092954" class="btn" data-lang="es lang-active">Llamar ahora</a>
+      <a href="tel:9549092954" class="btn" data-lang="en">Call now</a>
+      <a href="sms:7866617961" class="btn ghost" data-lang="es lang-active">Enviar mensaje</a>
+      <a href="sms:7866617961" class="btn ghost" data-lang="en">Send a text</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <p data-lang="es lang-active">© 2026 Urbano Window Tinting Service · Hollywood &amp; Fort Lauderdale, FL · Servicio móvil</p>
+    <p data-lang="en">© 2026 Urbano Window Tinting Service · Hollywood &amp; Fort Lauderdale, FL · Mobile Service</p>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/urbano_windowtinting_service/" target="_blank">Instagram</a>
+      <a href="https://www.facebook.com/p/Urbano-Window-Tinting-Service-61556734770479/" target="_blank">Facebook</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function setLang(lang){
+    document.querySelectorAll('[data-lang]').forEach(el=>{
+      const val = el.getAttribute('data-lang');
+      const isMatch = val.split(' ')[0] === lang;
+      el.classList.toggle('lang-active', isMatch);
+    });
+    document.getElementById('btn-es').classList.toggle('active', lang==='es');
+    document.getElementById('btn-en').classList.toggle('active', lang==='en');
+    document.documentElement.lang = lang;
+  }
+  setLang('es');
+</script>
+
+</body>
+</html>
